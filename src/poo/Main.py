@@ -1,7 +1,7 @@
-from src.poo.Biblioteca import Biblioteca
-from src.poo.Endereco import Endereco
-from src.poo.Livro import Livro
-from src.poo.Usuario import Usuario
+from src.poo.objetos.Biblioteca import Biblioteca
+from src.poo.objetos.Endereco import Endereco
+from src.poo.objetos.Livro import Livro
+from src.poo.objetos.Usuario import Usuario
 
 endereco1 = Endereco("49100044", "Bla bla rua")
 endereco2 = Endereco("49100045", "kakakak rua")

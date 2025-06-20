@@ -1,0 +1,2 @@
+class ObjectAlreadyRegisteredException(Exception):
+    pass

@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
 
-from src.poo.Endereco import Endereco
-from src.poo.Livro import Livro
-from src.poo.Usuario import Usuario
+from src.poo.exceptions.ObjectAlreadyRegisteredException import ObjectAlreadyRegisteredException
+from src.poo.exceptions.ObjectNotFoundException import ObjectNotFoundException
+from src.poo.objetos.Endereco import Endereco
+from src.poo.objetos.Livro import Livro
+from src.poo.objetos.Usuario import Usuario
 
 
 @dataclass
@@ -14,31 +16,31 @@ class Biblioteca:
 
     def cadastar_usuario(self, objeto : Usuario):
         if self.buscar_sistema(self.usuarios, objeto):
-            print(f"Usuario {objeto} já tem um cadastro!")
+            raise ObjectAlreadyRegisteredException(f"Usuario {objeto} já tem um cadastro!")
         else:
             self.usuarios.append(objeto)
             print(f"Usuario {objeto} cadastrado com sucesso!")
 
     def cadastar_livro(self, objeto : Livro):
         if self.buscar_sistema(self.livros, objeto):
-            print(f"Livro {objeto} já tem um cadastro!")
+            raise ObjectAlreadyRegisteredException(f"Livro {objeto} já tem um cadastro!")
         else:
             self.livros.append(objeto)
             print(f"Livro {objeto} cadastrado com sucesso!")
 
     def remover_usuario(self, objeto : Usuario):
-        if self.buscar_sistema(self.livros, objeto):
+        if self.buscar_sistema(self.usuarios, objeto):
             self.usuarios.remove(objeto)
             print(f"Usuario {objeto} removido com sucesso!")
         else:
-            print(f"Usuario {objeto} não tem cadastro!")
+            raise ObjectNotFoundException(f"Usuario {objeto} não tem cadastro!")
 
     def remover_livro(self, objeto : Livro):
         if self.buscar_sistema(self.livros, objeto):
             self.livros.remove(objeto)
             print(f"Livro {objeto} removido com sucesso!")
         else:
-            print(f"Livro {objeto} não tem cadastro!")
+            raise ObjectNotFoundException(f"Livro {objeto} não tem cadastro!")
 
     def listar_usuarios(self):
         if len(self.usuarios) == 0:
@@ -61,7 +63,6 @@ class Biblioteca:
             if getattr(item, chave) == chave_nome:
                 print(item)
                 return item
-        print("Não constar no sistema")
         return None
 
     @staticmethod
