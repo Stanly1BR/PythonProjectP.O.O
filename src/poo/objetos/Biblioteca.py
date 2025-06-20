@@ -28,19 +28,27 @@ class Biblioteca:
             self.livros.append(objeto)
             print(f"Livro {objeto} cadastrado com sucesso!")
 
-    def remover_usuario(self, objeto : Usuario):
-        if self.buscar_sistema(self.usuarios, objeto):
-            self.usuarios.remove(objeto)
-            print(f"Usuario {objeto} removido com sucesso!")
-        else:
-            raise ObjectNotFoundException(f"Usuario {objeto} não tem cadastro!")
+    def remover_usuario(self, nome_busca):
+        encontrou = False
+        for i in self.usuarios:
+            if i.nome in nome_busca:
+                self.usuarios.remove(i)
+                print(f"Usuario {i} removido com sucesso!")
+                encontrou = True
+                break
+        if not encontrou:
+            raise ObjectNotFoundException(f"Usuario {nome_busca} não tem cadastro!")
 
-    def remover_livro(self, objeto : Livro):
-        if self.buscar_sistema(self.livros, objeto):
-            self.livros.remove(objeto)
-            print(f"Livro {objeto} removido com sucesso!")
-        else:
-            raise ObjectNotFoundException(f"Livro {objeto} não tem cadastro!")
+    def remover_livro(self, nome_busca):
+        encontrou = False
+        for i in self.livros:
+            if i.titulo in nome_busca:
+                self.livros.remove(i)
+                print(f"Livro {i} removido com sucesso!")
+                encontrou = True
+                break
+        if not encontrou:
+            raise ObjectNotFoundException(f"Livro {nome_busca} não tem cadastro!")
 
     def listar_usuarios(self):
         if len(self.usuarios) == 0:
