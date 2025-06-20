@@ -12,6 +12,8 @@ usuario1 = Usuario("stanly", "stanly@gmail.com", "2837182", endereco2)
 livro1 = Livro("O livro", "O autor", 456435)
 livro2 = Livro("O livro 2", "O autor 2", 456435)
 
+print("====================================================================")
+
 biblioteca.cadastar_usuario(usuario1)
 biblioteca.cadastar_livro(livro1)
 biblioteca.cadastar_livro(livro2)

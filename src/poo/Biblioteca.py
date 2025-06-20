@@ -13,26 +13,49 @@ class Biblioteca:
     livros : list[Livro] = field(default_factory=list)
 
     def cadastar_usuario(self, objeto : Usuario):
-        self.usuarios.append(objeto)
+        if self.buscar_sistema(self.usuarios, objeto):
+            print(f"Usuario {objeto} já tem um cadastro!")
+        else:
+            self.usuarios.append(objeto)
+            print(f"Usuario {objeto} cadastrado com sucesso!")
 
     def cadastar_livro(self, objeto : Livro):
-        self.livros.append(objeto)
+        if self.buscar_sistema(self.livros, objeto):
+            print(f"Livro {objeto} já tem um cadastro!")
+        else:
+            self.livros.append(objeto)
+            print(f"Livro {objeto} cadastrado com sucesso!")
 
     def remover_usuario(self, objeto : Usuario):
-        self.usuarios.remove(objeto)
+        if self.buscar_sistema(self.livros, objeto):
+            self.usuarios.remove(objeto)
+            print(f"Usuario {objeto} removido com sucesso!")
+        else:
+            print(f"Usuario {objeto} não tem cadastro!")
 
     def remover_livro(self, objeto : Livro):
-        self.livros.remove(objeto)
+        if self.buscar_sistema(self.livros, objeto):
+            self.livros.remove(objeto)
+            print(f"Livro {objeto} removido com sucesso!")
+        else:
+            print(f"Livro {objeto} não tem cadastro!")
 
     def listar_usuarios(self):
-        for objeto in self.usuarios:
-            print(objeto)
+        if len(self.usuarios) == 0:
+            print("Lista de Usuarios vazia")
+        else:
+            for objeto in self.usuarios:
+                print(objeto)
 
     def listar_livros(self):
-        for objeto in self.livros:
-            print(objeto)
+        if len(self.livros) == 0:
+            print("Lista de Livros vazia")
+        else:
+            for objeto in self.livros:
+                print(objeto)
 
-    def buscar(self, objeto, chave, chave_nome):
+    @staticmethod
+    def buscar(objeto, chave, chave_nome):
 
         for item in objeto:
             if getattr(item, chave) == chave_nome:
@@ -40,3 +63,10 @@ class Biblioteca:
                 return item
         print("Não constar no sistema")
         return None
+
+    @staticmethod
+    def buscar_sistema(objeto, novo_objeto):
+        for item in objeto:
+            if item == novo_objeto:
+                return True
+        return False
