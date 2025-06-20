@@ -1,5 +1,6 @@
 import os
 
+from src.poo.exceptions.ObjectAlreadyRegisteredException import ObjectAlreadyRegisteredException
 from src.poo.objetos.Biblioteca import Biblioteca
 from src.poo.objetos.Endereco import Endereco
 from src.poo.objetos.Livro import Livro
@@ -44,8 +45,8 @@ def menu_livro() -> None:
 def limpar_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def validar_entrada(entrada):
-    if entrada <=0 or entrada > 5:
+def validar_entrada(entrada, min, max):
+    if entrada <min or entrada > max:
         raise ValueError
 
 
@@ -56,12 +57,8 @@ while True:
 
     try:
         opcao = int(input())
+        validar_entrada(opcao, 0, 2)
 
-        if opcao <0 or opcao > 2:
-            raise ValueError
-
-    except ValueError:
-        continue
     except Exception:
         continue
 
@@ -74,7 +71,7 @@ while True:
 
         try:
             opcao_usuario = int(input())
-            validar_entrada(opcao_usuario)
+            validar_entrada(opcao_usuario, 1, 5)
 
             if opcao_usuario == 1:
                 nome = str(input("Digite o nome do usuario: "))
@@ -99,6 +96,8 @@ while True:
                 nome = str(input("Digite o nome do usuario: "))
                 biblioteca.remover_usuario(nome)
 
+        except ObjectAlreadyRegisteredException as e:
+            print(f"Ocorreu um erro de cadastro de usuario: {e}")
         except ValueError as e:
             print(f"Ocorreu um erro de valores dentro do menu usuario: {e}")
         except Exception as e:
@@ -110,7 +109,7 @@ while True:
 
         try:
             opcao_livro = int(input())
-            validar_entrada(opcao_livro)
+            validar_entrada(opcao_livro, 1, 5)
 
             if opcao_livro == 1:
                 titulo = str(input("Digite o titulo do livro: "))
@@ -131,6 +130,8 @@ while True:
                 titulo = str(input("Digite o titulo do livro: "))
                 biblioteca.remover_livro(titulo)
 
+        except ObjectAlreadyRegisteredException as e:
+            print(f"Ocorreu um erro de cadastro de livro: {e}")
         except ValueError as e:
             print(f"Ocorreu um erro de valores dentro do menu livro: {e}")
         except Exception as e:

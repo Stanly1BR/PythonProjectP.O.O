@@ -31,7 +31,7 @@ class Biblioteca:
     def remover_usuario(self, nome_busca):
         encontrou = False
         for i in self.usuarios:
-            if i.nome in nome_busca:
+            if i.nome == nome_busca:
                 self.usuarios.remove(i)
                 print(f"Usuario {i} removido com sucesso!")
                 encontrou = True
@@ -42,7 +42,7 @@ class Biblioteca:
     def remover_livro(self, nome_busca):
         encontrou = False
         for i in self.livros:
-            if i.titulo in nome_busca:
+            if i.titulo == nome_busca:
                 self.livros.remove(i)
                 print(f"Livro {i} removido com sucesso!")
                 encontrou = True
