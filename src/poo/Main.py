@@ -44,11 +44,26 @@ def menu_livro() -> None:
 def limpar_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def validar_entrada(entrada):
+    if entrada <=0 or entrada > 5:
+        raise ValueError
+
 
 while True:
     limpar_terminal()
     menu()
-    opcao = int(input())
+    opcao = 0
+
+    try:
+        opcao = int(input())
+
+        if opcao <0 or opcao > 2:
+            raise ValueError
+
+    except ValueError:
+        continue
+    except Exception:
+        continue
 
     if opcao == 0:
         break
@@ -56,51 +71,67 @@ while True:
     if opcao == 1:
         limpar_terminal()
         menu_usuario()
-        opcao_usuario = int(input())
 
-        if opcao_usuario == 1:
-            nome = str(input("Digite o nome do usuario: "))
-            email = str(input("Digite o email do usuario: "))
-            senha = str(input("Digite a senha do usuario: "))
-            cep = str(input("Digite o cep do usuario: "))
-            numero = str(input("Digite o numero do usuario: "))
+        try:
+            opcao_usuario = int(input())
+            validar_entrada(opcao_usuario)
 
-            endereco_novo = Endereco(cep, numero)
-            usuario_novo = Usuario(nome, email, senha, endereco_novo)
+            if opcao_usuario == 1:
+                nome = str(input("Digite o nome do usuario: "))
+                email = str(input("Digite o email do usuario: "))
+                senha = str(input("Digite a senha do usuario: "))
+                cep = str(input("Digite o cep do usuario: "))
+                numero = str(input("Digite o numero do usuario: "))
 
-            biblioteca.cadastar_usuario(usuario_novo)
+                endereco_novo = Endereco(cep, numero)
+                usuario_novo = Usuario(nome, email, senha, endereco_novo)
 
-        elif opcao_usuario == 2:
-            biblioteca.listar_usuarios()
+                biblioteca.cadastar_usuario(usuario_novo)
 
-        elif opcao_usuario == 3:
-            buscar_por_nome = str(input("Digite o nome do usuario: "))
-            biblioteca.buscar(biblioteca.usuarios, "nome",buscar_por_nome)
+            elif opcao_usuario == 2:
+                biblioteca.listar_usuarios()
 
-        elif opcao_usuario == 4:
-            nome = str(input("Digite o nome do usuario: "))
-            biblioteca.remover_usuario(nome)
+            elif opcao_usuario == 3:
+                buscar_por_nome = str(input("Digite o nome do usuario: "))
+                biblioteca.buscar(biblioteca.usuarios, "nome",buscar_por_nome)
+
+            elif opcao_usuario == 4:
+                nome = str(input("Digite o nome do usuario: "))
+                biblioteca.remover_usuario(nome)
+
+        except ValueError as e:
+            print(f"Ocorreu um erro de valores dentro do menu usuario: {e}")
+        except Exception as e:
+            print(f"Ocorreu um erro inesperado: {e}")
 
     if opcao == 2:
         limpar_terminal()
         menu_livro()
-        opcao_livro = int(input())
 
-        if opcao_livro == 1:
-            titulo = str(input("Digite o titulo do livro: "))
-            autor = str(input("Digite o autor do livro: "))
-            ano = int(input("Digite o ano do livro: "))
+        try:
+            opcao_livro = int(input())
+            validar_entrada(opcao_livro)
 
-            livro_novo = Livro(titulo, autor, ano)
-            biblioteca.cadastar_livro(livro_novo)
+            if opcao_livro == 1:
+                titulo = str(input("Digite o titulo do livro: "))
+                autor = str(input("Digite o autor do livro: "))
+                ano = int(input("Digite o ano do livro: "))
 
-        elif opcao_livro == 2:
-            biblioteca.listar_livros()
+                livro_novo = Livro(titulo, autor, ano)
+                biblioteca.cadastar_livro(livro_novo)
 
-        elif opcao_livro == 3:
-            buscar_por_titulo = str(input("Digite o titulo do livro: "))
-            biblioteca.buscar(biblioteca.livros, "titulo", buscar_por_titulo)
+            elif opcao_livro == 2:
+                biblioteca.listar_livros()
 
-        elif opcao_livro == 4:
-            titulo = str(input("Digite o titulo do livro: "))
-            biblioteca.remover_livro(titulo)
+            elif opcao_livro == 3:
+                buscar_por_titulo = str(input("Digite o titulo do livro: "))
+                biblioteca.buscar(biblioteca.livros, "titulo", buscar_por_titulo)
+
+            elif opcao_livro == 4:
+                titulo = str(input("Digite o titulo do livro: "))
+                biblioteca.remover_livro(titulo)
+
+        except ValueError as e:
+            print(f"Ocorreu um erro de valores dentro do menu livro: {e}")
+        except Exception as e:
+            print(f"Ocorreu um erro inesperado: {e}")
