@@ -45,8 +45,8 @@ def menu_livro() -> None:
 def limpar_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def validar_entrada(entrada, min, max):
-    if entrada <min or entrada > max:
+def validar_entrada(entrada, valor_min, valor_max ):
+    if entrada <valor_min or entrada > valor_max:
         raise ValueError
 
 
@@ -57,9 +57,10 @@ while True:
 
     try:
         opcao = int(input())
-        validar_entrada(opcao, 0, 2)
+        validar_entrada(opcao, 0,2)
 
-    except Exception:
+    except Exception as E:
+        print(f"Ocorreu um erro inesperado: {E}")
         continue
 
     if opcao == 0:
@@ -83,18 +84,18 @@ while True:
                 endereco_novo = Endereco(cep, numero)
                 usuario_novo = Usuario(nome, email, senha, endereco_novo)
 
-                biblioteca.cadastar_usuario(usuario_novo)
+                biblioteca.cadastar_objeto(biblioteca.usuarios,usuario_novo)
 
             elif opcao_usuario == 2:
-                biblioteca.listar_usuarios()
+                biblioteca.listar(biblioteca.usuarios)
 
             elif opcao_usuario == 3:
                 buscar_por_nome = str(input("Digite o nome do usuario: "))
-                biblioteca.buscar(biblioteca.usuarios, "nome",buscar_por_nome)
+                biblioteca.buscar(biblioteca.usuarios, "nome", buscar_por_nome)
 
             elif opcao_usuario == 4:
                 nome = str(input("Digite o nome do usuario: "))
-                biblioteca.remover_usuario(nome)
+                biblioteca.remover(nome, "nome", biblioteca.usuarios)
 
         except ObjectAlreadyRegisteredException as e:
             print(f"Ocorreu um erro de cadastro de usuario: {e}")
@@ -117,10 +118,10 @@ while True:
                 ano = int(input("Digite o ano do livro: "))
 
                 livro_novo = Livro(titulo, autor, ano)
-                biblioteca.cadastar_livro(livro_novo)
+                biblioteca.cadastar_objeto(biblioteca.livros, livro_novo)
 
             elif opcao_livro == 2:
-                biblioteca.listar_livros()
+                biblioteca.listar(biblioteca.livros)
 
             elif opcao_livro == 3:
                 buscar_por_titulo = str(input("Digite o titulo do livro: "))
@@ -128,7 +129,7 @@ while True:
 
             elif opcao_livro == 4:
                 titulo = str(input("Digite o titulo do livro: "))
-                biblioteca.remover_livro(titulo)
+                biblioteca.remover(biblioteca.livros, "titulo", titulo)
 
         except ObjectAlreadyRegisteredException as e:
             print(f"Ocorreu um erro de cadastro de livro: {e}")
