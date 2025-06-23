@@ -1,7 +1,7 @@
 import pytest
 
-from src.poo.objetos.Endereco import Endereco
-from src.poo.objetos.Usuario import Usuario
+from src.poo.model.Endereco import Endereco
+from src.poo.model.Usuario import Usuario
 
 @pytest.fixture
 def endereco_mock():

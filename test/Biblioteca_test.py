@@ -1,13 +1,13 @@
 from src.poo.exceptions.ObjectAlreadyRegisteredException import ObjectAlreadyRegisteredException
 from src.poo.exceptions.ObjectNotFoundException import ObjectNotFoundException
 from src.poo.objetos.Biblioteca import Biblioteca
-from src.poo.objetos.Endereco import Endereco
+from src.poo.model.Endereco import Endereco
 from unittest.mock import MagicMock
 
 import pytest
 
-from src.poo.objetos.Livro import Livro
-from src.poo.objetos.Usuario import Usuario
+from src.poo.model.Livro import Livro
+from src.poo.model.Usuario import Usuario
 
 
 @pytest.fixture

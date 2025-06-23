@@ -1,4 +1,4 @@
-from src.poo.objetos.Livro import Livro
+from src.poo.model.Livro import Livro
 
 def test_criar_objeto():
     livro = Livro("O livro", "Gabriel", 2021)
