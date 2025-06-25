@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 
+from database import db
 from src.poo.exceptions.ObjectAlreadyRegisteredException import ObjectAlreadyRegisteredException
 from src.poo.exceptions.ObjectNotFoundException import ObjectNotFoundException
 from src.poo.model.Endereco import Endereco
@@ -7,12 +8,39 @@ from src.poo.model.Livro import Livro
 from src.poo.model.Usuario import Usuario
 
 
-@dataclass
+def conectar_banco():
+    try:
+        db.connect()
+        print("Conectado ao banco de dados!")
+        return True
+    except Exception as e:
+        print(f"Erro ao conectar ao banco de dados: {e}")
+        return False
+
+def criar_tabelas():
+    try:
+        db.create_tables([Usuario, Endereco, Livro])
+        print("Tabelas criadas com sucesso!")
+        return True
+    except Exception as e:
+        print(f"Erro ao criar as tabelas: {e}")
+        return False
+
+def desconectar_banco():
+    try:
+        db.close()
+        print("Desconectado do banco de dados!")
+        return True
+    except Exception as e:
+        print(f"Erro ao desconectar do banco de dados: {e}")
+        return False
+
 class Biblioteca:
-    nome : str
-    endereco : Endereco
-    usuarios : list[Usuario] = field(default_factory=list)
-    livros : list[Livro] = field(default_factory=list)
+    def __init__(self, nome : str, endereco : Endereco):
+        nome : str
+        endereco : Endereco
+        conectar_banco()
+
 
     def cadastar_objeto(self, tipo_objeto, objeto):
         if self.buscar_sistema(tipo_objeto, objeto):

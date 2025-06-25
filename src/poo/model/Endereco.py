@@ -1,6 +1,10 @@
-from dataclasses import dataclass
+from peewee import CharField
 
-@dataclass
-class Endereco:
-    cep : str
-    numero : str
+from database import BaseModel
+
+class Endereco(BaseModel):
+    cep = CharField()
+    numero = CharField()
+
+    class Meta:
+        db_table = 'endereco'

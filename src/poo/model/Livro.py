@@ -1,7 +1,11 @@
-from dataclasses import dataclass
+from peewee import CharField
 
-@dataclass
-class Livro:
-    titulo : str
-    autor : str
-    ano : int
+from database import BaseModel
+
+class Livro(BaseModel):
+    titulo = CharField()
+    autor = CharField()
+    ano = CharField()
+
+    class Meta:
+        db_table = 'livro'
