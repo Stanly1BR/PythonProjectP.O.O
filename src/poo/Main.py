@@ -1,12 +1,13 @@
 import os
 
 from src.poo.exceptions.ObjectAlreadyRegisteredException import ObjectAlreadyRegisteredException
-from src.poo.objetos.Biblioteca import Biblioteca
+from src.poo.exceptions.ObjectNotFoundException import ObjectNotFoundException
+from src.poo.objetos.Biblioteca import Biblioteca, desconectar_banco
 from src.poo.model.Endereco import Endereco
 from src.poo.model.Livro import Livro
 from src.poo.model.Usuario import Usuario
 
-biblioteca = Biblioteca("Biblioteca", Endereco("12345678", "123"))
+biblioteca = Biblioteca("Biblioteca", Endereco(cep="12345678", numero="123"))
 
 def menu() -> None:
     print("=======================")
@@ -58,12 +59,15 @@ while True:
     try:
         opcao = int(input())
         validar_entrada(opcao, 0,2)
-
+    except ValueError as e:
+        print(f"Erro de entrada: {e}")
+        continue
     except Exception as E:
         print(f"Ocorreu um erro inesperado: {E}")
         continue
 
     if opcao == 0:
+        desconectar_banco()
         break
 
     if opcao == 1:
@@ -81,24 +85,36 @@ while True:
                 cep = str(input("Digite o cep do usuario: "))
                 numero = str(input("Digite o numero do usuario: "))
 
-                endereco_novo = Endereco(cep, numero)
-                usuario_novo = Usuario(nome, email, senha, endereco_novo)
+                # Cria um dicionário para os dados do endereço
+                endereco = {
+                    "cep": cep,
+                    "numero": numero
+                }
+                # Cria um dicionário para os dados do usuário, incluindo o endereço
+                usuario_novo = {
+                    "nome": nome,
+                    "email": email,
+                    "senha": senha,
+                    "endereco": endereco  # Passa o dicionário de endereço
+                }
 
-                biblioteca.cadastar_objeto(biblioteca.usuarios,usuario_novo)
+                biblioteca.cadastar_objeto(Usuario, usuario_novo)
 
             elif opcao_usuario == 2:
-                biblioteca.listar(biblioteca.usuarios)
+                biblioteca.listar(Usuario)
 
             elif opcao_usuario == 3:
                 buscar_por_nome = str(input("Digite o nome do usuario: "))
-                biblioteca.buscar(biblioteca.usuarios, "nome", buscar_por_nome)
+                biblioteca.buscar(Usuario, "nome", buscar_por_nome)
 
             elif opcao_usuario == 4:
                 nome = str(input("Digite o nome do usuario: "))
-                biblioteca.remover(nome, "nome", biblioteca.usuarios)
+                biblioteca.remover(Usuario, "nome", nome)
 
         except ObjectAlreadyRegisteredException as e:
             print(f"Ocorreu um erro de cadastro de usuario: {e}")
+        except ObjectNotFoundException as e:
+            print(f"Erro ao remover/buscar usuario: {e}")
         except ValueError as e:
             print(f"Ocorreu um erro de valores dentro do menu usuario: {e}")
         except Exception as e:
@@ -115,24 +131,32 @@ while True:
             if opcao_livro == 1:
                 titulo = str(input("Digite o titulo do livro: "))
                 autor = str(input("Digite o autor do livro: "))
-                ano = int(input("Digite o ano do livro: "))
+                ano = str(input("Digite o ano do livro: "))
 
-                livro_novo = Livro(titulo, autor, ano)
-                biblioteca.cadastar_objeto(biblioteca.livros, livro_novo)
+                # Cria um dicionário para os dados do livro
+                livro_novo = {
+                    "titulo": titulo,
+                    "autor": autor,
+                    "ano": ano
+                }
+
+                biblioteca.cadastar_objeto(Livro, livro_novo)
 
             elif opcao_livro == 2:
-                biblioteca.listar(biblioteca.livros)
+                biblioteca.listar(Livro)
 
             elif opcao_livro == 3:
                 buscar_por_titulo = str(input("Digite o titulo do livro: "))
-                biblioteca.buscar(biblioteca.livros, "titulo", buscar_por_titulo)
+                biblioteca.buscar(Livro, "titulo", buscar_por_titulo)
 
             elif opcao_livro == 4:
                 titulo = str(input("Digite o titulo do livro: "))
-                biblioteca.remover(biblioteca.livros, "titulo", titulo)
+                biblioteca.remover(Livro, "titulo", titulo)
 
         except ObjectAlreadyRegisteredException as e:
             print(f"Ocorreu um erro de cadastro de livro: {e}")
+        except ObjectNotFoundException as e:
+            print(f"Erro ao remover/buscar livro: {e}")
         except ValueError as e:
             print(f"Ocorreu um erro de valores dentro do menu livro: {e}")
         except Exception as e:
