@@ -28,15 +28,14 @@ PythonProjectP.O.O/
 ├── src/
 │   └── poo/
 │       ├── exceptions/
-│       │   ├── __init__.py
 │       │   ├── ObjectAlreadyRegisteredException.py
 │       │   └── ObjectNotFoundException.py
+|       ├── model/
+│       │   ├── Usuario.py
+|       |   ├── Livro.py
+|       |   └── Endereco.py
 │       └── objetos/
-│           ├── __init__.py
-│           ├── Biblioteca.py
-│           ├── Endereco.py
-│           ├── Livro.py
-│           └── Usuario.py
+│           └── Biblioteca.py
 └── Main.py
 ```
 
